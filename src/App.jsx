@@ -1,3 +1,8 @@
+import { useState, useEffect } from "react";
+import axios from "axios";
+import Search from "./components/Search";
+import Paginate from "./components/Paginate";
+import UserUpdate from "./components/UserUpdate";
 import {
   Container,
   Row,
@@ -7,12 +12,6 @@ import {
   Table,
   Button,
 } from "react-bootstrap";
-import { useState, useEffect } from "react";
-import axios from "axios";
-import Search from "./components/Search";
-import Paginate from "./components/Paginate";
-import UpdateUser from "./components/UpdateUser";
-import "./App.css";
 
 function App() {
   const [users, setUsers] = useState([]);
@@ -23,25 +22,12 @@ function App() {
   const [modalShow, setModalShow] = useState(false);
   const [updateUserId, setUpdateUserId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const POST_PER_PAGE = 10;
-  const API_URL =
+  const POST_PER_PAGE = 8;
+  const API_LINK =
     "https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json";
 
   // -------------------------------------------------------------------------------------------------------------
   // functions
-
-  // select all functionality
-  const onSelectAll = (event) => {
-    let updatedList = [...selectedUsersId];
-    if (event.target.checked) {
-      setIsAllChecked(true);
-      updatedList = currentUsers.map((user) => user.id);
-    } else {
-      setIsAllChecked(false);
-      updatedList = [];
-    }
-    setCheckedUsersId(updatedList);
-  };
 
   // function to delete the selected user
   const deleteSelected = () => {
@@ -67,7 +53,7 @@ function App() {
   // funtion to fetch the users from the source API
   const fetchUsers = async () => {
     try {
-      const response = await axios.get(API_URL);
+      const response = await axios.get(API_LINK);
       setUsers(response.data);
     } catch (error) {
       console.log("Error in getting users", error);
@@ -76,6 +62,19 @@ function App() {
 
   // -------------------------------------------------------------------------------------------------------------
   // input handlers
+  // select all functionality
+  const onSelectAll = (event) => {
+    let updatedList = [...selectedUsersId];
+    if (event.target.checked) {
+      setIsAllChecked(true);
+      updatedList = currentUsers.map((user) => user.id);
+    } else {
+      setIsAllChecked(false);
+      updatedList = [];
+    }
+    setCheckedUsersId(updatedList);
+  };
+
   const onSelect = (event) => {
     const userId = event.target.value;
     let updatedList = [...selectedUsersId];
@@ -228,7 +227,7 @@ function App() {
         ""
       )}
       {modalShow ? (
-        <UpdateUser
+        <UserUpdate
           users={users}
           setUsers={setUsers}
           userId={updateUserId}

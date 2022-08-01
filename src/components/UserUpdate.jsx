@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Modal, Form, Button } from "react-bootstrap";
 
-const UpdateUser = ({ users, setUsers, userId, setModalShow, ...props }) => {
+const UserUpdate = ({ users, setUsers, userId, setModalShow, ...props }) => {
   const userToUpdate = users.find((user) => user.id === userId);
 
   const [formValue, setFormValue] = useState({
@@ -79,4 +79,4 @@ const UpdateUser = ({ users, setUsers, userId, setModalShow, ...props }) => {
   );
 };
 
-export default UpdateUser;
+export default UserUpdate;
